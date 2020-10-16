@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>はじめよう! 学習記録</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- 自サイトのCSS -->
+  <link rel="stylesheet" href="main.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+ 
+</head>
+
+<body>
+  <!-- 最初のローディング表示 -->
+  <section id="loading" class="view">
+    <i class="initial-loading-icon fas fa-sync" aria-hidden="true"></i>
+  </section>
+  <!-- /#loading -->
+
+  <!-- ログイン画面 -->
+  <section id="login" class="view">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-8 col-lg-6">
+          <form id="login-form">
+            <div class="form-group login__email">
+              <label for="login-email" class="col-form-label">
+                メールアドレス
+              </label>
+              <div>
+                <input id="login-email" type="email" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group login__password">
+              <label for="login-password" class="col-form-label">
+                パスワード
+              </label>
+              <div>
+                <input id="login-password" type="password" class="form-control" required>
+              </div>
+            </div>
+            <div id="login__help" class="alert alert-danger"></div>
+            <div class="form-group login__submit">
+              <div>
+                <button id="login__submit-button" type="submit" class="btn btn-success">
+                  ログイン
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /#login -->
+
+  <!-- 学習時間一覧画面 -->
+  <section id="time-record" class="view">
+    <header>
+      <div id="header">
+        <div id="logo">
+          <a>毎日の勉強を応援！</a>
+        </div>
+        <a><i class="fas fa-pencil-alt fa-lg"></i></a>
+        <button class="btn btn-primary logout-button logout-btn">
+             ログアウト
+        </button>
+      </div>
+    </header>
+    <div id="cover">
+      <h1 id="cover__title">はじめよう!</h1>
+      <h1 id="cover__title">学習記録</h1>
+      <a href="#time-record-modal" data-toggle="modal" class="add-button">
+        <button class="btn btn-success mt-4" type="submit">学習内容の記録</button>
+       </a>
+    </div>
+    <div id="smartphone-registration-btn">
+      <a href="#time-record-modal" data-toggle="modal" class="add-button-smartphone">
+   <button class="btn btn-success btn-block" type="submit">学習内容の記録</button>
+   　</a>
+    </div>
+    <div id="total" class="container">
+      <div class="total-view">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <div>集計</div>
+                <div>これまでの学習合計時間：<span class="total-time"></span>時間</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="graph" class="container">
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <div class="card">
+            <div class="card-body">
+              <div>グラフ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <div id="main">
+        <div id="record-list" class="clearfix"></div>
+      </div>
+    </div>
+  </section>
+  <!-- /#time-record -->
+
+  <div id="time-record-template">
+    <!-- 学習データのテンプレート -->
+    <div class="container">
+      <div class="time-record-item">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="record-item__date"></div>
+              </div>
+              <div class="record-item__detail">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="record-item__time col-md-2">学習時間：<span class="record-item__time-text"></span>時間</div>
+                    <div class="record-item__subject col-md-2">学習科目：<span class="record-item__subject-text"></span></div>
+                    <div class="record-item__content col-md-2">学習内容：<span class="record-item__content-text"></span></div>
+                    <button class="offset-md-1 col-md-2 mt-2 btn btn-success  time-record-item__edit" data-toggle="modal" data-target="#time-record-edit-modal">
+               <i class="fas fa-edit " aria-hidden="true"></i>
+               編集
+              </button>
+                    <button class="offset-md-1 col-md-2 mt-2 btn btn-danger time-record-item__delete">
+               <i class="fas fa-trash-alt" aria-hidden="true"></i>
+               削除
+              </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.time-record-item -->
+  </div>
+
+  <!-- 学習登録追加モーダル -->
+  <div id="time-record-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">学習の登録</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-1">
+          <form id="record-form">
+            <div class="form-group row">
+              <label for="add-record-date" class="col-md-3  col-form-label">日付</label>
+              <div class="col-md-9">
+                <input id="add-record-date" type="text" class="form-control datepicker" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-record-time" class="col-md-3  col-form-label">学習時間(h)</label>
+              <div class="col-md-9">
+                <input id="add-record-time" type="number" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-record-subject" class="col-md-3  col-form-label">学習科目</label>
+              <div class="col-md-9">
+                <input id="add-record-subject" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-record-content" class="col-md-3  col-form-label">学習内容</label>
+              <div class="col-md-9">
+                <input id="add-record-content" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div id="add-record__help" class="alert alert-danger"></div>
+            <button id="submit_add_record" type="submit" class="btn btn-default btn-success btn-block">
+              保存する
+            </button>
+        </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+  </div>
+  <!-- /#add-record-modal -->
+
+
+  <!-- 学習登録編集モーダル -->
+  <div id="time-record-edit-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">学習の編集</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-1">
+          <form id="record-edit-form">
+            <div class="form-group row">
+              <label for="add-edit-record-date" class="col-md-3  col-form-label append-info">日付</label>
+              <div class="col-md-9">
+                <input id="add-edit-record-date" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-edit-record-time" class="col-md-3  col-form-label">学習時間(h)</label>
+              <div class="col-md-9">
+                <input id="add-edit-record-time" type="number" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-edit-record-subject" class="col-md-3  col-form-label">学習科目</label>
+              <div class="col-md-9">
+                <input id="add-edit-record-subject" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="add-edit-record-content" class="col-md-3  col-form-label">学習内容</label>
+              <div class="col-md-9">
+                <input id="add-edit-record-content" type="text" class="form-control" required>
+              </div>
+            </div>
+            <div id="add-edit-record__help" class="alert alert-danger"></div>
+            <button id="submit_edit_record" type="submit" class="btn btn-default btn-success btn-block">
+              保存する
+            </button>
+        </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+
+
+    <!-- Firebaseのセットアップコード -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+
+    <!--　使用するFirebaseのSDK追加 -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+
+    <!--　Firebase　構成キー　-->
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyAM8JAY2Ib6qRjTRhTKbq46KrH-iHW_3wE",
+        authDomain: "learning-time-record.firebaseapp.com",
+        databaseURL: "https://learning-time-record.firebaseio.com",
+        projectId: "learning-time-record",
+        storageBucket: "learning-time-record.appspot.com",
+        messagingSenderId: "464366711032",
+        appId: "1:464366711032:web:bddbd017ab492c0e5acb0d",
+        measurementId: "G-7DWXMCPE62"
+      };
+      // Firebase初期化
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+
+    <!-- Popper.js, 次に Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="main.js"></script>
+
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"></script>
+</body>
+
+</html>
