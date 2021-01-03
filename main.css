@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 /* すべての画面を最初は表示しない */
+
 .view {
   display: none;
 }
@@ -11,6 +12,7 @@
  * 最初のローディング表示
  * ------------------
  */
+
 #loading {
   display: block;
   position: relative;
@@ -28,10 +30,18 @@
 }
 
 /* 回転するアニメーション */
+
 @keyframes spin {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Google Fontsとページの背景色 */
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #F4F5F7;
 }
 
 /**
@@ -56,29 +66,22 @@
  */
 
 /* メイン画面横幅設定 */
+
 #time-record {
-  width:100%;
+  width: 100%;
 }
 
-/**
-#total {
-  display:none;
-}
-*/
+/* ログアウトボタン */
 
-/**
-#graph {
-  display:none;
-}
-*/
 .logout-btn {
-  margin-right:15px;
+  margin-right: 15px;
 }
 
 /*学習カードのテンプレート設定*/
+
 #time-record-template {
   display: none;
-} 
+}
 
 .clearfix::after {
   content: "";
@@ -92,7 +95,7 @@
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: #F4F5F7;
 }
 
 #logo {
@@ -101,58 +104,66 @@
 }
 
 /* PC用登録ボタン */
-@media (max-width: 576px){
-.add-button {
-  text-decoration: none;
-  color: #28a745;
-  font-size: 25px;
-  display:none;
- }
+
+@media (max-width: 576px) {
+  .add-button {
+    text-decoration: none;
+    color: #28a745;
+    font-size: 25px;
+    display: none;
+  }
 }
 
 /* PC用登録ボタン カーソルが乗っているときのデザイン */
+
 .add-button:hover {
   text-decoration: none;
   color: #1f8737;
 }
 
 /* PC用登録ボタン クリックされたときのデザイン */
+
 .add-button:focus {
   text-decoration: none;
 }
 
 
 /* スマホ用登録ボタン */
-@media (min-width:575px){
-.add-button-smartphone {
-  text-decoration: none;
-  color: #28a745;
-  font-size: 25px;
-  display:none;
- }
+
+@media (min-width:575px) {
+  .add-button-smartphone {
+    text-decoration: none;
+    color: #28a745;
+    font-size: 25px;
+    display: none;
+  }
 }
 
 /* スマホ用登録ボタン カーソルが乗っているときのデザイン */
+
 .add-button-smartphone:hover {
   text-decoration: none;
   color: #1f8737;
 }
 
 /* スマホ用登録ボタン カーソルがタップされたときのデザイン */
+
 .add-button-smartphone:focus {
   text-decoration: none;
 }
 
 /* スマホ用登録ボタン 配置位置調整 */
+
 #smartphone-registration-btn {
-  margin:15px;
- }
+  margin: 15px;
+}
 
 /* ヒーローエリア　画像の位置調整 */
+
 #cover {
   color: white;
   height: 300px;
-  background-color: white;
+  background-color: #F4F5F7;
   background-image: url("./images/open-book-1428428_1280.jpg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -179,16 +190,18 @@
 }
 
 /* 学習データの表示設定*/
+
 .time-record-item {
   width: 100%;
-  margin-top:15px;
-  margin-bottom:15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   background-color: white;
   border: solid 1px #ddd;
 }
 
 
 /* 学習カード内の削除ボタンのデザイン設定 */
+
 .time-record-item__delete {
   color: #dc3545;
   background-color: transparent;
@@ -196,6 +209,7 @@
 }
 
 /* カーソルが削除ボタンに乗っているとき */
+
 .time-record-item__delete:hover {
   color: #fff;
   background-color: #dc3545;
@@ -203,6 +217,7 @@
 }
 
 /* カーソルが削除ボタンに乗っていないとき */
+
 .time-record-item__delete:focus {
   outline-color: #dc3545;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
@@ -210,6 +225,7 @@
 
 
 /* 学習カード内の編集ボタンのデザイン設定 */
+
 .time-record-item__edit {
   color: #28a745;
   background-color: transparent;
@@ -217,6 +233,7 @@
 }
 
 /* カーソルが編集ボタンに乗っているとき */
+
 .time-record-item__edit:hover {
   color: #fff;
   background-color: #28a745;
@@ -224,33 +241,38 @@
 }
 
 /* カーソルが編集ボタンに乗っていないとき */
+
 .time-record-item__edit:focus {
   outline-color: #28a745;
- /* box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); */
+  /* box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5); */
 }
 
 /* 登録モーダルのヘルプ表示 */
+
 #add-record__help {
   display: none;
 }
 
 /* 編集モーダルのヘルプ表示 */
+
 #add-edit-record__help {
-  display:none;
+  display: none;
 }
 
 /* モーダル　学習時間入力フォームのスピンボタン非表示 */
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-     -webkit-appearance: none;
-     margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-     -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 
 /* モーダル　学習時間入力フォーム　IEで表示したときリセットボタン非表示 */
+
 input::-ms-clear {
-     visibility:hidden
+  visibility: hidden
 }

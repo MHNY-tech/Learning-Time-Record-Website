@@ -11,9 +11,15 @@
 
   <!-- 自サイトのCSS -->
   <link rel="stylesheet" href="main.css">
-  
+
+  <!-- datepickerのCSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
- 
+
+  <!-- Google Fontsの導入 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+  </style>
+
 </head>
 
 <body>
@@ -88,23 +94,11 @@
     <div id="total" class="container">
       <div class="total-view">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 text-center pr-5 pl-5">
             <div class="card">
               <div class="card-body">
-                <div>集計</div>
                 <div>これまでの学習合計時間：<span class="total-time"></span>時間</div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="graph" class="container">
-      <div class="row">
-        <div class="col-md-12 mt-3">
-          <div class="card">
-            <div class="card-body">
-              <div>グラフ</div>
             </div>
           </div>
         </div>
@@ -217,9 +211,9 @@
         <div class="modal-body m-1">
           <form id="record-edit-form">
             <div class="form-group row">
-              <label for="add-edit-record-date" class="col-md-3  col-form-label append-info">日付</label>
+              <label for="add-edit-record-date" class="col-md-3 col-form-label append-info">日付</label>
               <div class="col-md-9">
-                <input id="add-edit-record-date" type="text" class="form-control" required>
+                <input id="add-edit-record-date" type="text" class="form-control datepicker" required>
               </div>
             </div>
             <div class="form-group row">
@@ -277,9 +271,11 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    
+
+    <!-- datepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    
+
+    <!-- datepickerを日本語使用にする -->
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
 
     <!-- Popper.js, 次に Bootstrap JS -->

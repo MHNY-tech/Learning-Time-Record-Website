@@ -6,6 +6,7 @@ let currentUID = null;
 
 // 登録モーダル 日付フォームクリックするとカレンダー表示
 $('.datepicker').datepicker();
+
 /**
  * ----------------------
  * すべての画面共通で使う関数
@@ -38,7 +39,7 @@ const createRecordDiv = (recordId, recordData) => {
 
   // 学習登録（日付・学習時間・学習科目・学習内容）を表示する
   $divTag.find('.record-item__date').text(recordData.recordDate);
-  $divTag.find('.record-item__time-text').text(recordData.recordTime); 
+  $divTag.find('.record-item__time-text').text(recordData.recordTime);
   $divTag.find('.record-item__subject-text').text(recordData.recordSubject);
   $divTag.find('.record-item__content-text').text(recordData.recordContent);
   // id属性をセット
@@ -49,9 +50,7 @@ const createRecordDiv = (recordId, recordData) => {
   $deleteButton.on('click', () => {
     deleteRecord(recordId, recordData);
   });
-
   return $divTag;
-
 };
 
 // 学習一覧画面内の学習データをクリア
@@ -69,6 +68,7 @@ const addRecord = (recordId, recordData) => {
 // 学習一覧画面に学習編集データを表示する
 const editRecord = (recordId, recordData) => {
   const $editTarget = $(`#${recordId}`);
+  $editTarget.find('.record-item__date').text(recordData.recordDate);
   $editTarget.find('.record-item__time-text').text(recordData.recordTime);
   $editTarget.find('.record-item__subject-text').text(recordData.recordSubject);
   $editTarget.find('.record-item__content-text').text(recordData.recordContent);
@@ -79,7 +79,6 @@ const editRecord = (recordId, recordData) => {
 // 学習一覧画面の初期化、イベントハンドラ登録処理
 const loadRecordView = () => {
   resetRecordshelfView();
-  
 
   // 学習データを取得
   const recordsRef = firebase
@@ -90,7 +89,7 @@ const loadRecordView = () => {
   // 過去に登録したイベントハンドラを削除
   recordsRef.off('child_removed');
   recordsRef.off('child_added');
-  
+
 
   // records の child_removedイベントハンドラを登録
   // （データベースから学習情報が削除されたときの処理）
@@ -99,7 +98,7 @@ const loadRecordView = () => {
     const $record = $(`#${recordId}`);
     console.log('recordId', recordId);
 
-    // TODO: 学習一覧画面から該当の学習データを削除する
+    // 学習一覧画面から該当の学習データを削除する
     $record.remove();
     getTotal();
   });
@@ -109,21 +108,20 @@ const loadRecordView = () => {
   recordsRef.on('child_added', (recordSnapshot) => {
     const recordId = recordSnapshot.key;
     const recordData = recordSnapshot.val();
-    
+
     // 学習一覧画面に学習データを表示する
     addRecord(recordId, recordData);
     getTotal();
   });
-  
+
   // records の child_changedイベントハンドラを登録
   // （データベースに学習情報が追加保存されたときの処理
   recordsRef.on('child_changed', (recordSnapshot) => {
     const recordId = recordSnapshot.key;
     const recordData = recordSnapshot.val();
-  
-    editRecord(recordId,recordData);
-    
-   // createTotalDiv(recordId,recordData);
+
+    editRecord(recordId, recordData);
+    getTotal();
   });
 };
 
@@ -292,9 +290,6 @@ $('#record-form').on('submit', (e) => {
  * 学習登録編集モーダル関連の処理
  * -------------------------
  */
- 
- 
-
 const resetEditRecordModal = () => {
   $('#record-edit-form')[0].reset();
   $('#submit_edit_record')
@@ -309,13 +304,11 @@ $('#record-edit-form').on('submit', (e) => {
   console.log('e.target', e.target);
   const recordId = $(e.target).attr('edit-dt');
   console.log('recordId', recordId);
-  
-  
+
   // 学習時間の登録ボタンを押せないようにする
   $('#submit_edit_record')
     .prop('disabled', true)
     .text('送信中…');
-
 
   // 学習項目（日付・科目・時間・内容）の取得
   const recordDate = $('#add-edit-record-date').val();
@@ -330,7 +323,6 @@ $('#record-edit-form').on('submit', (e) => {
     recordContent,
     createdAt: firebase.database.ServerValue.TIMESTAMP,
   };
-
 
   firebase
     .database()
@@ -349,29 +341,29 @@ $('#record-edit-form').on('submit', (e) => {
         .text('保存できませんでした。')
         .fadeIn();
     });
-   
+
 });
 
 // クリックしたとき、学習カードからモーダルのフォームへ情報を反映
-$(document).on('click','.time-record-item__edit',(event) => {
+$(document).on('click', '.time-record-item__edit', (event) => {
   const $targetCard = $(event.target).closest('.time-record-item');
-  
+
   // レコードIDを取得する
   const recordId = $targetCard.attr('id');
-  console.log('recordId',recordId);
-  
+  console.log('recordId', recordId);
+
   // 学習内容の項目を取得する
   const studyDate = $targetCard.find('.record-item__date').text();
   const studyTime = $targetCard.find('.record-item__time-text').text();
   const studySubject = $targetCard.find('.record-item__subject-text').text();
   const studyContent = $targetCard.find('.record-item__content-text').text();
- 
- // 編集モーダルのフォームに学習内容を反映する
+
+  // 編集モーダルのフォームに学習内容を反映する
   $('#add-edit-record-date').val(studyDate);
   $('#add-edit-record-time').val(studyTime);
   $('#add-edit-record-subject').val(studySubject);
   $('#add-edit-record-content').val(studyContent);
-  
+
   // edit-dt属性を追加し、レコードIDを取得する
   $('#record-edit-form').attr('edit-dt', recordId);
 });
@@ -381,17 +373,18 @@ $(document).on('click','.time-record-item__edit',(event) => {
  * 学習時間の集計関連の関数
  * -------------------------
  */
- const getTotal = () => {
-   let totalTime = 0;
-   firebase
-   .database()
-   .ref(`records/${currentUID}`)
-   .once('value', (snapshot) => {
-     const snapshotValue = snapshot.val();
-    
-     Object.keys(snapshotValue).forEach((key) => {
-      totalTime += Number.parseFloat(snapshotValue[key].recordTime);
+const getTotal = () => {
+  let totalTime = 0;
+  firebase
+    .database()
+    .ref(`records/${currentUID}`)
+    .once('value', (snapshot) => {
+      const snapshotValue = snapshot.val();
+
+      Object.keys(snapshotValue).forEach((key) => {
+        totalTime += Number.parseFloat(snapshotValue[key].recordTime);
+      });
+      $('.total-time').text(totalTime);
     });
-    $('.total-time').text(totalTime);
-   });
- };
+};
+ 
